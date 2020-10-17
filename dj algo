@@ -1,0 +1,54 @@
+from collections import defaultdict
+class Graph:
+    def __init__(self,val):
+        self.graph = defaultdict(list)
+        self.v=val
+        self.dist=[1000]*(self.v+1)
+        self.col= defaultdict(int)
+    def addEdge(self,u,v,w):
+        #Directed Graph from u---->v 
+        self.graph[u].append(v)
+        #Undirected Graph from u<---->v 
+        self.graph[v].append(u)
+        self.col[(u,v)]=self.col[(v,u)]=w
+    def printf(self):
+        print("Given keys connected to vertex : ")
+        print(self.graph)
+    def minDis(self,dist,visit):
+        min=1000
+        for i in range(1,self.v+1):
+            if dist[i]<min and visit[i]==False:
+                min = dist[i]
+                min_index=i
+        return min_index
+    def dijkstra(self,s):
+        dist=[1000]*(self.v+1)
+        dist[s]=0
+        visit=[False]*(self.v+1)
+        for i in range(self.v):
+            u=self.minDis(dist,visit)
+            visit[u]=True
+            for j in self.graph[i]:
+                if visit[j]==False and self.dist[j]>self.dist[i]+self.col[(i,j)]:
+                    self.dist[j]=self.dist[i]+self.col[(i,j)]
+        print(self.col)
+
+
+            
+g=Graph(9)
+g.addEdge(1,2,4)
+g.addEdge(1,8,8)
+g.addEdge(2,8,11)
+g.addEdge(2,3,8)
+g.addEdge(8,9,7)
+g.addEdge(8,7,1)
+g.addEdge(3,4,7)
+g.addEdge(3,9,2)
+g.addEdge(3,6,4)
+g.addEdge(9,7,6)
+g.addEdge(7,6,2)
+g.addEdge(4,5,9)
+g.addEdge(6,4,14)
+g.addEdge(6,5,10)
+g.printf()
+g.dijkstra(1)
