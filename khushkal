@@ -1,0 +1,51 @@
+
+class Graph:
+    def __init__(self,n):
+        self.graph=[]
+        self.v=n
+    def addEdge(self,u,v,w):
+        self.graph.append([u,v,w])
+    def find(self,parent,i):
+        if 0==parent[i]:
+            return i
+        return self.find(parent,parent[i])
+    def union(self,u,v,rank,parent):
+        px=self.find(parent,u)
+        py=self.find(parent,v)
+        if rank[px]>rank[py]:
+            parent[py]=px
+        if rank[px]<rank[py]:
+            parent[px]=py
+        else :
+            parent[py]=px
+            rank[px]+=1
+    def kst(self):
+        i=0
+        e=0
+        result=[]
+        parent=[0]*(self.v+1)
+        rank=[0]*(self.v+1)
+        self.graph=sorted(self.graph,key=lambda item: item[2])
+        
+        while e<self.v-1:
+            u,v,w=self.graph[i]
+            i+=1
+            x=self.find(parent,u)
+            y=self.find(parent,v)
+            if x!=y:
+                e+=1
+                self.union(x,y,rank,parent)
+                result.append(self.graph[i-1])
+        print(result)
+
+
+g=Graph(5)
+g.addEdge(1,2,3)
+g.addEdge(1,3,4)
+g.addEdge(4,2,6)
+g.addEdge(5,2,2)
+g.addEdge(2,3,5)
+g.addEdge(3,5,7)
+g.kst()
+
+            
