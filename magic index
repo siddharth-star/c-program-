@@ -1,0 +1,87 @@
+#===============
+#This contain 2 algorithm which is by O(n^2) complexity and other is O(V+E)
+'''
+def find(parent,x):
+    if parent[x]==-1:
+        return True
+    return False
+
+def magical(a,n):
+    parent=[-1]*n
+    c=0
+    for i in range(n):
+        j=i
+        while j<n and j>-1:
+            if find(parent,j):
+                parent[j]=0
+                j=int((a[j]+j)/n)+1
+            else:
+                c+=1
+                break
+
+    print("Number of magical Index : ",c)
+
+
+a=[1,1,1,1]
+n=len(a)
+magical(a,n)
+'''
+from collections import defaultdict
+class Graph:
+    def __init__(self,val,dist=0):
+        self.graph = defaultdict(list)
+        self.v=val
+        self.dist=defaultdict(int)
+    def addEdge(self,u,v):
+        #Directed Graph from u---->v 
+        self.graph[u].append(v)
+        #Undirected Graph from u<---->v 
+        self.graph[v].append(u)
+    def value(self,u,d):
+        self.dist[u]=d
+
+    def printf(self):
+        print("Given keys connected to vertex : ")
+        print(self.graph)
+        print(self.dist)
+    def recDfs(self,s,visit,st):
+        visit[s]=True
+        st.append(s)
+        y=int((s+self.dist[s])%self.v)+1
+        if y>-1 and y<self.v:
+            if visit[y]==False:
+                if self.recDfs(y,visit,st) :
+                    return True
+            elif y in st:
+                return True
+        st.pop()
+        return False
+
+
+
+
+    def dfs(self):
+        visit=[False]*2*self.v
+        c=0
+        st=[]
+        for i in range(1,self.v+1):
+                if visit[i]==False:
+                    if self.recDfs(i,visit,st):
+                        c+=1
+                visit=[False]*2*self.v
+        print(c)
+                
+                
+            
+    
+g=Graph(4)
+g.addEdge(1,2)
+g.addEdge(2,3)
+g.addEdge(3,4)
+g.value(1,7)
+g.value(2,1)
+g.value(3,1)
+g.value(4,1)
+g.printf()
+g.dfs()
+
