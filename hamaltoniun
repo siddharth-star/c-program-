@@ -1,0 +1,59 @@
+from collections import defaultdict
+class Graph:
+    def __init__(self,val):
+        self.graph = defaultdict(list)
+        self.v=val
+        self.col=[-1]*(self.v+1)
+    def addEdge(self,u,v):
+        #Directed Graph from u---->v 
+        self.graph[u].append(v)
+        #Undirected Graph from u<---->v 
+        self.graph[v].append(u)
+    def printf(self):
+        print("Given keys connected to vertex : ")
+        print(self.graph)
+#===========================================================================================
+    def safe(self,s,visit):
+        if visit[s]==1:
+                return False
+        return True  
+    def dfs(self,s,visit,st):
+        visit[s]=1
+        st.append(s)
+        for i in self.graph[s]:
+                print(s,i,visit)
+                if self.safe(i,visit):
+                    if self.dfs(i,visit,st):
+                            return True
+                        
+                elif i in st :
+                    if len(st)==self.v:
+                        return True
+        visit[s]=0        
+        st.pop()
+        return False
+
+
+    def HamCycle(self):
+        visit=[0]*(self.v+1)
+        st=[]
+        if (self.dfs(1,visit,st)):#node
+            print(st)
+        
+            return True
+        print('Not possible ')
+        
+#=====================================================================
+
+g=Graph(5)
+g.addEdge(1,2)
+g.addEdge(1,5)
+g.addEdge(1,3)
+g.addEdge(2,4)
+
+g.addEdge(2,5)
+g.addEdge(3,4)
+g.addEdge(4,5)
+
+g.printf()
+g.HamCycle()
