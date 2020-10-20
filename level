@@ -1,0 +1,39 @@
+class node:
+    def __init__(self,val):
+        self.data=val
+        self.next=None
+class linklist:
+    def __init__(self):
+        self.start=None
+    def create(self,val):
+        new=node(val)
+        if self.start==None:
+            self.start=new
+        else:
+            temp=self.start
+            while (temp.next!=None):
+                temp=temp.next
+            temp.next=new           
+    def delete(self):
+        temp=self.start
+        self.start=self.start.next
+    def view(self):
+        temp=self.start
+        while (True):
+            print(temp.data,end=' ')
+            if temp.next==None:
+                break
+            temp=temp.next
+        print()
+
+my=linklist()
+my.create(2)
+my.create(4)
+my.create(7)
+my.create(17)
+my.create(24)
+my.create(52)
+my.view()
+my.delete()
+my.delete()
+my.view()
