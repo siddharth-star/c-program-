@@ -1,0 +1,56 @@
+from collections import defaultdict
+class Graph:
+    def __init__(self,val):
+        self.graph = defaultdict(list)
+        self.v=val
+    def addEdge(self,u,v):
+        #Directed Graph from u---->v 
+        self.graph[u].append(v)
+        #Undirected Graph from u<---->v 
+        self.graph[v].append(u)
+    def printf(self):
+        print("Given keys connected to vertex : ")
+        print(self.graph)
+    def recDfs(self,s,visit,k,vDeg):
+        visit[s]=True
+        for i in self.graph[s]:
+            if vDeg[s]<k:
+                vDeg[i]-=1
+            if visit[i]==False:
+                if self.recDfs(i,visit,k,vDeg) :
+                    vDeg[i]-=1
+        return vDeg[s]<k
+
+
+
+    def dfs(self,k):
+        visit=[False]*2*self.v
+        vDeg=[]
+        vDeg.append(0)
+        for i in self.graph:
+            vDeg.append(len(self.graph[i]))
+        
+        for i in range(1,self.v+1):
+                self.recDfs(i,visit,k,vDeg)
+        print("=================\nK cores :")
+        print(vDeg)
+        for i in range(1,self.v+1):
+            if vDeg[i]>=k:
+                print(f'\n[{i}] : ',end='')
+                for j in self.graph[i]:
+                    if vDeg[j]>=k:
+                        print(f' --> {j}',end='')
+
+            
+k=2    
+g=Graph(6)
+g.addEdge(1,2)
+g.addEdge(3,1)
+g.addEdge(1,4)
+g.addEdge(2,4)
+g.addEdge(3,4)
+g.addEdge(4,5)
+g.addEdge(5,6)
+g.printf()
+g.dfs(k)
+
